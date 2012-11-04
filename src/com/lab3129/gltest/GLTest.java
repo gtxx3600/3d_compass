@@ -25,6 +25,7 @@ public class GLTest extends Activity {
 		public void run() {
 			// TODO Auto-generated method stub
 			Log.i("GLTest","FPS: "+glr.getFPS());
+			Log.i("GLTest","err: " + slistener.getCurrERR() + "pos :" + slistener.pos2String());
 			
 		}
 		
@@ -62,10 +63,7 @@ public class GLTest extends Activity {
 
 
     }
-    public void test()
-    {
-    	tv.setText("FPS:" + glr.getFPS());
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);

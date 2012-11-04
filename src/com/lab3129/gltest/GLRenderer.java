@@ -45,14 +45,17 @@ public class GLRenderer implements Renderer {
 		
 		float [] rotationMatrix = sl.computeRotationMatrix();
 		float r[] = new float[16];
-		Matrix.invertM(r, 0, rotationMatrix, 0);
+		Matrix.transposeM(r, 0, rotationMatrix, 0);
 		float center[] = new float[4];
 		float upper[] = new float[4];
 		Matrix.multiplyMV(center, 0, r, 0, centerVec, 0);
 		Matrix.multiplyMV(upper, 0, r, 0, upperVec, 0);
 		GLU.gluLookAt(gl, -center[0] * 10, -center[1] * 10, -center[2] * 10, 
-				center[0], center[1], center[2], 
+				0, 0, 0, 
 				upper[0], upper[1], upper[2] );
+//		GLU.gluLookAt(gl, sl.position[0], sl.position[1], sl.position[2], 
+//				sl.position[0] + center[0], sl.position[1] + center[1], sl.position[0] + center[2], 
+//				upper[0], upper[1], upper[2]);
 		
 		plane.draw(gl);
 		lastTime = time;

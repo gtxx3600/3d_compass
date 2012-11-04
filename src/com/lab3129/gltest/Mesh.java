@@ -110,9 +110,9 @@ public class Mesh {
 		// Counter-clockwise winding.
 		gl.glFrontFace(GL10.GL_CCW);
 		// Enable face culling.
-		gl.glEnable(GL10.GL_CULL_FACE);
+		//gl.glEnable(GL10.GL_CULL_FACE);
 		// What faces to remove with the face culling.
-		gl.glCullFace(GL10.GL_BACK);
+		//gl.glCullFace(GL10.GL_BACK);
 		// Enabled the vertices buffer for writing and
 		// to be used during
 		// rendering.
@@ -142,7 +142,7 @@ public class Mesh {
 		// Disable the vertices buffer.
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		// Disable face culling.
-		gl.glDisable(GL10.GL_CULL_FACE);
+		//gl.glDisable(GL10.GL_CULL_FACE);
 
 		if (mTextureId != -1 && mTextureBuffer != null) {
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
