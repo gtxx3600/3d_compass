@@ -54,6 +54,7 @@ public class SListener implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		// TODO Auto-generated method stub
+		float p = 0.05f;
 		switch(event.sensor.getType())
 		{
 		case Sensor.TYPE_ORIENTATION:
@@ -62,14 +63,14 @@ public class SListener implements SensorEventListener {
 			this.orientation_data[2] = event.values[2];
 			break;
 		case Sensor.TYPE_ACCELEROMETER:
-			this.acc_data[0] = event.values[0];
-			this.acc_data[1] = event.values[1];
-			this.acc_data[2] = event.values[2];
+			this.acc_data[0] = this.acc_data[0]*(1-p) + p*event.values[0];
+			this.acc_data[1] = this.acc_data[1]*(1-p) + p*event.values[1];
+			this.acc_data[2] = this.acc_data[2]*(1-p) + p*event.values[2];
 			break;
 		case Sensor.TYPE_MAGNETIC_FIELD:
-			this.mag_data[0] = event.values[0];
-			this.mag_data[1] = event.values[1];
-			this.mag_data[2] = event.values[2];
+			this.mag_data[0] = this.mag_data[0]*(1-p) + p*event.values[0];
+			this.mag_data[1] = this.mag_data[1]*(1-p) + p*event.values[1];
+			this.mag_data[2] = this.mag_data[2]*(1-p) + p*event.values[2];
 		default:
 			break;
 		}

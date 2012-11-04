@@ -43,7 +43,7 @@ public class GLTest extends Activity {
         LinearLayout l = (LinearLayout)findViewById(R.id.llay);
         slistener = new SListener(this);
         GLSurfaceView view = new GLSurfaceView(this);
-        glr = new GLRenderer(slistener);
+        glr = new GLRenderer(this, slistener);
         view.setRenderer(glr);
         //setContentView(view);
         mLockScreenRotation();

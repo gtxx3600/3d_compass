@@ -3,12 +3,17 @@ package com.lab3129.gltest;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.opengl.Matrix;
+import android.util.Log;
 
 public class GLRenderer implements Renderer {
 	private Square s;
+	private Plane plane;
 	private GL10 gles;
 	private float theta;
 	private long lastTime;
@@ -18,30 +23,25 @@ public class GLRenderer implements Renderer {
 	private SListener sl;
 	private float centerVec[] = {0.0f, 0.0f, -1.0f, 1.0f};
 	private float upperVec[] = {0.0f, 1.0f, 0.0f, 1.0f};
-	public GLRenderer(SListener slistener) {
+	public GLRenderer(Context context, SListener slistener) {
 		// TODO Auto-generated constructor stub
 		s = new Square();
 		theta = 0;
 		fps_count = 0;
 		sl = slistener;
+		plane = new Plane(4.0f);
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
+		//Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/compass.png");
+		Log.i("GLTest","Load Bitmap" + bitmap.getWidth() + " " + bitmap.getHeight());
+		plane.loadBitmap(bitmap);
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		// TODO Auto-generated method stub
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-		//gl.glMatrixMode(GL10.GL_MODELVIEW);// OpenGL docs.
-		// Reset the modelview matrix
 		gl.glLoadIdentity();// OpenGL docs.
-		//GLU.gluLookAt(gl, 0, 0, 6, 0, 0, -1, (float)Math.cos(theta), (float)Math.sin(theta), 0 );
-		
 		long time = System.currentTimeMillis();
-//		theta = (float) ((time - this.createTime) / 1000.0 * 90);
-//		gl.glTranslatef(0, 0, -14);
-//		
-//		gl.glRotatef(sl.orientation_data[0], 0, 0, 1);
-//		gl.glRotatef(sl.orientation_data[2], 0, 1, 0);
-//		gl.glRotatef(sl.orientation_data[1], 1, 0, 0);
 		
 		float [] rotationMatrix = sl.computeRotationMatrix();
 		float r[] = new float[16];
@@ -54,8 +54,7 @@ public class GLRenderer implements Renderer {
 				center[0], center[1], center[2], 
 				upper[0], upper[1], upper[2] );
 		
-		//gl.glTranslatef(4, 0, 0);
-		s.draw(gl);
+		plane.draw(gl);
 		lastTime = time;
 		fps_count ++;
 	}
