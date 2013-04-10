@@ -20,15 +20,11 @@ public class GLTest extends Activity {
 	private SListener slistener;
 	
 	class myTask extends TimerTask{
-		
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			Log.i("GLTest","FPS: "+glr.getFPS());
 			Log.i("GLTest","err: " + slistener.getCurrERR() + "pos :" + slistener.pos2String());
-			
 		}
-		
 	}
 	
 	@Override
@@ -46,21 +42,17 @@ public class GLTest extends Activity {
         GLSurfaceView view = new GLSurfaceView(this);
         glr = new GLRenderer(this, slistener);
         view.setRenderer(glr);
-        //setContentView(view);
         mLockScreenRotation();
         tv = new TextView(this);
-        tv.setText("haha");
         l.addView(tv,new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         l.addView(view,new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         
         timer = new Timer();
         timer.schedule(new myTask(), 1000, 1000);
-        Log.i("GLTest", "Call onCreate");
-
 
     }
 

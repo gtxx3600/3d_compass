@@ -1,5 +1,7 @@
 package com.lab3129.gltest;
 
+import java.io.IOException;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -12,36 +14,30 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 public class GLRenderer implements Renderer {
-	private Square s;
 	private Plane plane;
-	private GL10 gles;
-	private float theta;
-	private long lastTime;
 	private long startTime;
-	private long createTime;
 	private int fps_count;
 	private SListener sl;
-	private float centerVec[] = {0.0f, 0.0f, -1.0f, 1.0f};
-	private float upperVec[] = {0.0f, 1.0f, 0.0f, 1.0f};
+	private static final float centerVec[] = {0.0f, 0.0f, -1.0f, 1.0f};
+	private static final float upperVec[] = {0.0f, 1.0f, 0.0f, 1.0f};
 	public GLRenderer(Context context, SListener slistener) {
-		// TODO Auto-generated constructor stub
-		s = new Square();
-		theta = 0;
 		fps_count = 0;
 		sl = slistener;
 		plane = new Plane(4.0f);
-		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
-		//Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/compass.png");
-		Log.i("GLTest","Load Bitmap" + bitmap.getWidth() + " " + bitmap.getHeight());
-		plane.loadBitmap(bitmap);
+		//Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
+		try {
+			Bitmap b = BitmapFactory.decodeStream(context.getResources().getAssets().open("compass.png"));
+			Log.i("GLTest","Load Bitmap" + b.getWidth() + " " + b.getHeight());
+			plane.loadBitmap(b);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		// TODO Auto-generated method stub
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();// OpenGL docs.
-		long time = System.currentTimeMillis();
 		
 		float [] rotationMatrix = sl.computeRotationMatrix();
 		float r[] = new float[16];
@@ -53,18 +49,13 @@ public class GLRenderer implements Renderer {
 		GLU.gluLookAt(gl, -center[0] * 10, -center[1] * 10, -center[2] * 10, 
 				0, 0, 0, 
 				upper[0], upper[1], upper[2] );
-//		GLU.gluLookAt(gl, sl.position[0], sl.position[1], sl.position[2], 
-//				sl.position[0] + center[0], sl.position[1] + center[1], sl.position[0] + center[2], 
-//				upper[0], upper[1], upper[2]);
 		
 		plane.draw(gl);
-		lastTime = time;
 		fps_count ++;
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		// TODO Auto-generated method stub
 		gl.glViewport(0, 0, width, height);// OpenGL docs.
 		// Select the projection matrix
 		gl.glMatrixMode(GL10.GL_PROJECTION);// OpenGL docs.
@@ -79,7 +70,6 @@ public class GLRenderer implements Renderer {
 		// Reset the modelview matrix
 		gl.glLoadIdentity();// OpenGL docs.
 		GLU.gluLookAt(gl, 0, 0, 6, 0, 0, -1, 0, 1, 0 );
-		this.gles = gl;
 		this.startTime = System.currentTimeMillis();
 		this.fps_count = 0;
 		
@@ -101,7 +91,6 @@ public class GLRenderer implements Renderer {
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, // OpenGL docs.
 		GL10.GL_NICEST);
 		
-		this.createTime = System.currentTimeMillis();
 
 	}
 	

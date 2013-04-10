@@ -3,7 +3,6 @@ package com.lab3129.gltest;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.lab3129.gltest.GLTest.myTask;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -19,7 +18,6 @@ public class SListener implements SensorEventListener {
 	public float acc_data[];
 	public float rotationMatrix[];
 	private SensorManager sensorManager;
-	private Sensor mOrientation;
 	private Sensor mAccelerometer;
 	private Sensor mMag;
 	public float speed[];
@@ -33,7 +31,6 @@ public class SListener implements SensorEventListener {
 		
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			getCurrERR();
 		}
 		
@@ -64,7 +61,6 @@ public class SListener implements SensorEventListener {
 		sensorManager = (SensorManager)context.getSystemService("sensor");
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mMag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		mOrientation = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 		mLinearAcc = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		
 		sensorManager.registerListener(this, mLinearAcc, SensorManager.SENSOR_DELAY_FASTEST);
@@ -113,11 +109,6 @@ public class SListener implements SensorEventListener {
 	
 		switch(event.sensor.getType())
 		{
-		case Sensor.TYPE_ORIENTATION:
-			this.orientation_data[0] = event.values[0];
-			this.orientation_data[1] = event.values[1];
-			this.orientation_data[2] = event.values[2];
-			break;
 		case Sensor.TYPE_ACCELEROMETER:
 		{
 			this.accRingBuff[0].put(event.values[0]);
@@ -141,9 +132,7 @@ public class SListener implements SensorEventListener {
 				this.speed[0] += buff[0]*diff;
 				this.speed[1] += buff[1]*diff;
 				this.speed[2] += buff[2]*diff;
-				//this.position[0] += this.speed[0] * diff * 1;
-				//this.position[1] += this.speed[1] * diff * 20;
-				//this.position[2] += this.speed[2] * diff;
+
 			}
 			if(this.stderr < 2)
 			{
