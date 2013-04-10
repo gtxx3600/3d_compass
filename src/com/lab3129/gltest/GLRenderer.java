@@ -24,7 +24,6 @@ public class GLRenderer implements Renderer {
 		fps_count = 0;
 		sl = slistener;
 		plane = new Plane(4.0f);
-		//Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass);
 		try {
 			Bitmap b = BitmapFactory.decodeStream(context.getResources().getAssets().open("compass.png"));
 			Log.i("GLTest","Load Bitmap" + b.getWidth() + " " + b.getHeight());

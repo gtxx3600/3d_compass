@@ -11,10 +11,8 @@ import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class GLTest extends Activity {
-	private TextView tv;
 	private GLRenderer glr;
 	private Timer timer;
 	private SListener slistener;
@@ -43,10 +41,6 @@ public class GLTest extends Activity {
         glr = new GLRenderer(this, slistener);
         view.setRenderer(glr);
         mLockScreenRotation();
-        tv = new TextView(this);
-        l.addView(tv,new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
         l.addView(view,new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
